@@ -13,7 +13,7 @@ const CourseDetailPage = () => {
 	const [error, setError] = useState(null);
 
 	useEffect(() => {
-		if (!id || !token) return;
+		if (!id) return;
 		const fetchCourse = async () => {
 			setIsLoading(true);
 			setError(null);

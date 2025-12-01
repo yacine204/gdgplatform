@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 
 const LoginPage = () => {
-	const { login, isLoading, error } = useAuth();
+	const { login, isLoading, error, continueAsGuest } = useAuth();
 	const navigate = useNavigate();
 	const location = useLocation();
 	const [form, setForm] = useState({ email: '', password: '' });
@@ -22,6 +22,11 @@ const LoginPage = () => {
 		} catch (err) {
 			// error handled by context
 		}
+	};
+
+	const handleGuest = () => {
+		continueAsGuest();
+		navigate('/learn', { replace: true });
 	};
 
 	return (
@@ -44,6 +49,9 @@ const LoginPage = () => {
 
 				<button type="submit" className="btn" disabled={isLoading}>
 					{isLoading ? 'Signing in...' : 'Sign in'}
+				</button>
+				<button type="button" className="btn btn--ghost" onClick={handleGuest}>
+					Continue as guest
 				</button>
 			</form>
 		</div>

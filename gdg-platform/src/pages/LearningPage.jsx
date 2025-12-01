@@ -13,7 +13,6 @@ const LearningPage = () => {
 	const [error, setError] = useState(null);
 
 	useEffect(() => {
-		if (!token) return;
 		const fetchCourses = async () => {
 			setIsLoading(true);
 			setError(null);
@@ -30,7 +29,7 @@ const LearningPage = () => {
 	}, [token]);
 
 	useEffect(() => {
-		if (!courses?.length || !token) return;
+		if (!courses?.length) return;
 		const topCourse = courses[0];
 		const fetchFeatured = async () => {
 			try {

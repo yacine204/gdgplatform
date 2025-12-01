@@ -64,26 +64,47 @@ export const AuthProvider = ({ children }) => {
 		}
 	};
 
-	const logout = () => setAuthState(null);
+	const continueAsGuest = () => {
+		setAuthState({
+			mode: 'guest',
+			user: {
+				name: 'Guest',
+				role: 'guest',
+			},
+			token: null,
+		});
+	};
+
+	const logout = () => {
+		setAuthState(null);
+		setError(null);
+	};
 
 	const hasRole = useCallback((...roles) => {
 		if (!authState?.user?.role) return false;
 		return roles.includes(authState.user.role);
 }, [authState?.user?.role]);
 
+	const isGuest = authState?.mode === 'guest';
+	const isAuthenticated = Boolean(authState?.token);
+	const canAccessApp = isAuthenticated || isGuest;
+
 	const value = useMemo(
 		() => ({
 			user: authState?.user || null,
 			token: authState?.token || null,
-			isAuthenticated: Boolean(authState?.token),
+			isAuthenticated,
+			isGuest,
+			canAccessApp,
 			isLoading,
 			error,
 			login,
 			register,
 			logout,
+			continueAsGuest,
 			hasRole,
 		}),
-		[authState, isLoading, error, hasRole]
+		[authState, isLoading, error, hasRole, isAuthenticated, isGuest, canAccessApp]
 	);
 
 	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

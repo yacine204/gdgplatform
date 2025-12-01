@@ -3,7 +3,6 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 
-const adminAuthRoutes = require('./routes/adminAuth');
 const userRoutes = require('./3-route/users.routes');
 const courseRoutes = require('./3-route/course.routes');
 const videoRoutes = require('./3-route/video.routes');
@@ -15,7 +14,6 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
-app.use('/admin', adminAuthRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/courses', courseRoutes);
 app.use('/api/videos', videoRoutes);

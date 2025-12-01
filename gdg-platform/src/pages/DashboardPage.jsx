@@ -16,19 +16,18 @@ const DashboardPage = () => {
 
 	useEffect(() => {
 		const fetchStats = async () => {
-			if (!token) return;
 			setLoading(true);
 			setError(null);
 			try {
 				const [users, courses, videos] = await Promise.all([
-					user?.role === 'admin' ? UsersAPI.list(token) : Promise.resolve([]),
+					user?.role === 'admin' && token ? UsersAPI.list(token) : Promise.resolve([]),
 					CoursesAPI.list(token),
-					user?.role === 'admin' ? VideosAPI.list(token) : Promise.resolve([]),
+					user?.role === 'admin' && token ? VideosAPI.list(token) : Promise.resolve([]),
 				]);
 				setStats({
-					users: users.length || 1,
+					users: user?.role === 'admin' ? users.length : '—',
 					courses: courses.length,
-					videos: videos.length,
+					videos: user?.role === 'admin' ? videos.length : '—',
 				});
 				setCourseList(courses);
 			} catch (err) {

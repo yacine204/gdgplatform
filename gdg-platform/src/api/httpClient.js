@@ -1,4 +1,17 @@
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+const resolveDefaultApiUrl = () => {
+	if (import.meta.env.VITE_API_URL) {
+		return import.meta.env.VITE_API_URL;
+	}
+	if (typeof window !== 'undefined') {
+		const { hostname } = window.location;
+		if (hostname === 'localhost' || hostname === '127.0.0.1') {
+			return 'http://localhost:3000/api';
+		}
+	}
+	return 'https://express-js-on-vercel-wine-one-57.vercel.app/api';
+};
+
+const API_BASE_URL = resolveDefaultApiUrl();
 
 const parseResponse = async (response) => {
 	if (response.status === 204) {
